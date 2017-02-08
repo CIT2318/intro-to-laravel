@@ -4,7 +4,7 @@
 
 ##Working with routes
 
-The first thing to understand when working with laravel is how routing works, how the URL in the browser maps to code that will be executed. Open routes/web.php. This is where the routes for an application are defined. Add the following routes to this file.
+The first thing to understand when working with laravel is how routing works, how the URL in the browser maps to code that will be executed. Open *routes/web.php*. This is where the routes for an application are defined. Add the following routes to this file.
 
 ```
     Route::get('all',function()

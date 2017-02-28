@@ -528,7 +528,7 @@ function addFilm(Request $request)
 @section('title', 'Add a new film')
 @section('content')
 @if (count($errors) > 0)
-    <div class="alert alert-danger">
+    <div>
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>

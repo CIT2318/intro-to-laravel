@@ -46,7 +46,7 @@ If it has installed correctly, the above will list all the composer commands
 ##Installing laravel
 
 * Visit https://github.com/laravel/laravel 
-* Download a copy of laravel, unzip the folder, and move it onto your htdocs folder.
+* Download a copy of laravel, unzip the folder, and move it onto your htdocs folder. For now make sure you put it in the root of this folder. 
 * You might want to change the name from *laravel-master*
 
 Laravel has lots of dependencies (it relies on lots of other PHP libraries) but these aren't stored as part of its github repository. We will instruct Composer to download all this library code so that Laravel will work for us. 
@@ -97,6 +97,6 @@ This generates a key that is used to encrypt data e.g. for session data. Once yo
 
 ###What else can go wrong?
 
-Depending on which version of XAMPP you have installed you may need to enable some PHP extensions. See https://laravel.com/docs/5.4/installation for server requirements. You may need to enable a PHP extension. If you unsure how to enable extensions please ask in a practical session. 
+Depending on which version of XAMPP you have installed you may need to enable some PHP extensions. See https://laravel.com/docs/5.4/installation for server requirements. If you unsure how to enable extensions please ask in a practical session. 
 
 

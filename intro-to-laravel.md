@@ -1,49 +1,54 @@
-#Introduction to Laravel
+# Introduction to Laravel
 
->The following practical instructions are a quick start. You should refer to the Laravel website for comprehensive info on building laravel applications and to look up aspects you find confusing. 
+The following practical instructions are a quick start. You should refer to the Laravel website for comprehensive info on building laravel applications and to look up aspects you find confusing. 
 
-##Working with routes
+## Working with routes
 
 The first thing to understand when working with laravel is how routing works, how the URL in the browser maps to code that will be executed. Open *routes/web.php*. This is where the routes for an application are defined. Add the following routes to this file.
 
 ```
-    Route::get('all',function()
-    {
-        return "show all films";
-    });
-    Route::get('details/{filmId}',function($filmId)
-    {
-        return "details for film ".$filmId;
-    });
-    Route::get('addform',function()
-    {
-        return "show add film form";
-    });
-    Route::post('addfilm',function()
-    {
-        return "add a new film";
-    });
-    Route::get('deleteform',function()
-    {
-        return "show delete film form";
-    });
-    Route::post('deletefilms',function()
-    {
-        return "delete films";
-    });
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('list',function()
+{
+    return "show all films";
+});
+Route::get('details/{filmId}',function($filmId)
+{
+    return "details for film ".$filmId;
+});
+Route::get('create',function()
+{
+    return "create a film";
+});
+Route::post('save',function()
+{
+    return "save the new film";
+});
+Route::get('deletelist',function()
+{
+    return "show list of films for deleting";
+});
+Route::post('delete',function()
+{
+    return "delete films";
+});
 ```
 
-* Open a web browser enter http://localhost/laravel-project-name/public/all and you should get the 'show all films' message.
+* Open a web browser enter http://localhost/laravel-project-name/public/list and you should get the 'show all films' message.
 * Test the other routes. Here are a couple of things to note:
   * When showing the details for a film, we have to specify the film's id number e.g. http://localhost/laravel-project-name/public/details/4 . The route features a parameter ($filmId) that will be assigned this value.
-  * You won't be able to test *addfilm* or *deletefilm* as these require a POST action. Eventually these routes will process form data.
-* For more info, read the documentation on routing https://laravel.com/docs/5.4/routing
+  * You won't be able to test *save* or *delete* as these require a POST action. Eventually these routes will process form data.
+* For more info, read the documentation on routing https://laravel.com/docs/5.5/routing
 
-##Controllers
+## Controllers
 
 Typically, rather than running simple functions, we would call controller methods to execute actions. So the next thing to do is create a controller. Before we do, we need to know about Artisan.
 
-###Artisan
+### Artisan
 
 Artisan is a CLI (Command Line Interface) that comes with Laravel. It is used to automate certain tasks for us. One task it can automate is creating controller classes. Here's how to use Artisan.
 
@@ -63,16 +68,15 @@ cd name-of-your-laravel-folder
 php artisan make:controller FilmController
 ```
 
-* If you look inside the app/Http/Controllers folder you should see a FilmController.php file.
+* If you look inside the *app/Http/Controllers* folder you should see a *FilmController.php* file.
 
 * Open this file in a text editor. The FilmController class will be empty. Next, add some methods inside the FilmController like the following:
 
 ```
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class FilmController extends Controller
 {
@@ -84,19 +88,19 @@ class FilmController extends Controller
     {
         return "controller - details for film ".$filmId;
     }
-    function addForm()
+    function create()
     {
         return "controller - show add film form";
     }
-    function addFilm(Request $request)
+    function save(Request $request)
     {
         return "controller - add a new film";
     }
-    function deleteForm()
+    function deleteList()
     {
-        return "controller - show delete film form";
+        return "controller - show delete films form";
     }
-    function deleteFilms(Request $request)
+    function delete(Request $request)
     {
         return "controller - delete films";
     }
@@ -107,23 +111,18 @@ class FilmController extends Controller
 * Modify your routes so they look like the following:
 
 ```
-Route::get('all', 'FilmController@index');
-
-Route::get('details/{filmId}', 'FilmController@details');
-
-Route::get('addform', 'FilmController@addForm');
-
-Route::post('addfilm', 'FilmController@addFilm');
-
-Route::get('deleteform', 'FilmController@deleteForm');
-
-Route::post('deletefilms', 'FilmController@deleteFilms');
+Route::get('list', 'FilmController@index');
+Route::get('details/{filmId}','FilmController@details');
+Route::get('create','FilmController@create');
+Route::post('save','FilmController@save');
+Route::get('deletelist','FilmController@deleteList');
+Route::post('delete','FilmController@delete');
 
 ```
 
-* Test this works. You should now be calling the controller methods when a URL is entered. 
+* Test this works by entering some URLs in the browser. You should now be calling the controller methods when a URL is entered. 
 
-##Views
+## Views
 Views are simple PHP pages that are loaded by the controller. Create the following view:
 
 ```
@@ -137,13 +136,13 @@ Views are simple PHP pages that are loaded by the controller. Create the followi
 </html>
 ```
 
-* In the *resources/views* folder create a new folder and name it 'film'. Save your view as *allfilms.php*.
+* In the *resources/views* folder create a new folder and name it 'film'. Save your view as *list-view.php*.
 * Modify the *index* method in *FilmController.php* so it loads this view instead of simply returning a string.
 
 ```
 function index()
     {
-        return view('film/allfilms');
+        return view('film/list-view');
     }
 ```
 
@@ -152,8 +151,8 @@ function index()
 * To test your understanding create a simple view for the details controller method. 
 * Test it works.
 
-##Blade Templates
-Blade is a templating engine (https://laravel.com/docs/5.4/blade). It allows us to do two things:
+## Blade Templates
+Blade is a templating engine (https://laravel.com/docs/5.5/blade). It allows us to do two things:
 
 * Easily re-use HTML code to create templates, just like when we used *include* in plain PHP.
 * Easily integrate PHP into our HTML pages without the need for lots of PHP tags.
@@ -167,9 +166,9 @@ Blade is a templating engine (https://laravel.com/docs/5.4/blade). It allows us 
     <body>
         @section('header')
             <ul>
-                <li><a href="{{url('all')}}">View Films</a></li>
-                <li><a href="{{url('deleteform')}}">Delete Films</a></li>
-                <li><a href="{{url('addform')}}">Add Film</a></li>
+                <li><a href="{{url('list')}}">Read</a></li>
+                <li><a href="{{url('create')}}">Create</a></li>
+                <li><a href="{{url('deletelist')}}">Delete </a></li>
             </ul>
         @show
 
@@ -193,13 +192,13 @@ Blade is a templating engine (https://laravel.com/docs/5.4/blade). It allows us 
 @endsection
 ```
 
-* Save this as *allfilms.blade.php* (in the film folder).
+* Save this as *list-view.blade.php* (in the film folder).
 * Test the 'all' route.
-* We no longer need *allfilms.php*. You can delete it.
+* We no longer need *list-view.php*. You can delete it.
 
-Here's how it all works *master.blade.php* is a template that we can base other pages on. *allfilms.blade.php* uses this template and adds to it. Here are a couple of things to note:
+Here's how it all works *master.blade.php* is a template that we can base other pages on. *list-view.blade.php* uses this template and adds to it. Here are a couple of things to note:
 
-* In *allfilms.blade.php* we need to specify the template to use:
+* In *list-view.blade.php* we need to specify the template to use:
 
 ```
 @extends('layouts.master')
@@ -211,7 +210,7 @@ Here's how it all works *master.blade.php* is a template that we can base other 
 <title>@yield('title')</title>
 ```
 
-* In *allfilms.blade.php* we use *@section* to add content to the template
+* In *list-view.blade.php* we use *@section* to add content to the template
 
 ```
 @section('title', 'View All Films')
@@ -219,30 +218,30 @@ Here's how it all works *master.blade.php* is a template that we can base other 
 
 * We no longer need PHP tags to execute PHP code, instead we can use double curly brackets {{ }} e.g.
 ```
-<li><a href="{{url('deleteform')}}">Delete Films</a></li>
+<li><a href="{{url('deletelist')}}">Delete </a></li>
 ```
-* In this example the url function simply outputs the base url of the site. *deleteform* is added to the end of this url. Use inspect or view source in the browser to see the url that is generated.
+* In this example the url function simply outputs the base url of the site. *deletelist* is added to the end of this url. Use inspect or view source in the browser to see the url that is generated.
 
-* Create additional child views for your other pages, details, addform etc.
+* Create additional child views for your other pages, details, create etc.
 * Check these work.
 
-##Adding Some CSS
+## Adding Some CSS
 
 In *master.blade.php* there is already a link to a CSS file.
 
 * Create a simple CSS file and save it in the public/css folder as *style.css*. 
 * Test this works.
 
-##Working with a Database
+## Working with a Database
 The first thing you will need to do is specify your database settings.
 
 * Open the .env file.
-* Edit the values for DB_DATABASE, DB_USERNAME and DB_PASSWORD
+* Edit the values for DB_DATABASE, DB_USERNAME and DB_PASSWORD. Before you do this, you might want to set up a new database in XAMPP so you don't get any conflicts with tables from existing projects.
 
-###Creating Database Migrations
+### Creating Database Migrations
 Laravel allows us to define database schemas using PHP code. We call these migrations. This makes it very easy to undo changes to the structure of our database and tables, and to completely re-design and re-create our tables without having to import/export .sql files.
 
-We will use Artisan to generate our migrations. Make sure the XAMPP shell is open and in the you laravel project directory. Enter the following command:
+We will use Artisan to generate our migrations. Make sure the XAMPP shell is open and you are in the laravel project directory. Enter the following command:
 
 ```
 php artisan make:migration create_films_table --create=films
@@ -293,22 +292,23 @@ Essentially this code creates a films table for us and defines four columns. The
 php artisan migrate
 ```
 
-> You might get an error along the lines of 'specified key was too long'. This is a known problem. To fix it open *app/Providers/AppServiceProvider.php*
-> 
-> * Add a use statement at the top
-> ```
-> use  Illuminate\Support\Facades\Schema;
-> ```
-> * And change the boot method to
-> ```
-> public function boot()
->     {
->         Schema::defaultStringLength(191);
->     }
-> ```
-> * Then try and run your migration again. See here for full explanation https://laracasts.com/discuss/channels/general-discussion/syntax-error-or-access-violation-1071-specified-key-was-too-long 
+You might get an error along the lines of 'specified key was too long'. This is a known problem. To fix it open *app/Providers/AppServiceProvider.php*
 
-###Seeding the database
+* Add a use statement at the top
+ ```
+ use  Illuminate\Support\Facades\Schema;
+ ```
+ * And change the boot method to
+ ```
+ public function boot()
+     {
+         Schema::defaultStringLength(191);
+     }
+ ```
+* Delete any tables that were created in the previous attempt.
+* Then try and run your migration again. See here for full explanation https://laracasts.com/discuss/channels/general-discussion/syntax-error-or-access-violation-1071-specified-key-was-too-long 
+
+### Seeding the database
 
 In addition to creating migrations we can also seed the database, Laravel will populate our database tables with some sample data. Again, we will use Artisan, this time to create a seeder. Enter the following command into the XAMPP shell window.
 
@@ -367,7 +367,7 @@ php artisan db:seed
 * Check phpmyadmin, you should find that your films table now has three entries.
 * That's the database set up
 
-##Models
+## Models
 Again, we will use Artisan to generate our model classes. In the XAMPP shell enter the following:
 
 ```
@@ -379,10 +379,10 @@ php artisan make:model Film
  
 >Eloquent ORM works on conventions. If we create a model class called Film, it will assume that this maps to a database table called 'films'. We don't have to do anything else to set up the object-relational mapping.
 
-##Tying everything together
+## Tying everything together
 
-###Displaying all the films
-Open *FilmController.php*.
+### Displaying all the films
+* Open *FilmController.php*.
 * Add a use statement to import the Film class.
 ```
 use App\Film;
@@ -391,19 +391,19 @@ use App\Film;
 
 ```
 function index()
-    {
-        $films = Film::all();
-        return view('film/allfilms',['films' => $films]);
-    }
+{
+    $films = Film::all();
+    return view('film/list-view',['films' => $films]);
+}
 ```
 
-* Hopefully, you can see how the active record pattern is working. We want a list of all the films, so we call the *all* method. This has been defined automatically for us by the Eloquent ORM (https://laravel.com/docs/5.4/eloquent)
-* Also note that the *all* method returns an array of film objects, and this array is passed to the view. Open *allfilms.blade.php*. Modify it so that it uses this array of film objects:
+* Hopefully, you can see how the active record pattern is working. We want a list of all the films, so we call the *all* method. This has been defined automatically for us by the Eloquent ORM (https://laravel.com/docs/5.5/eloquent)
+* Also note that the *all* method returns an array of film objects, and this array is passed to the view. Open *list-view.blade.php*. Modify it so that it uses this array of film objects:
 
 ```
 @extends('layouts.master')
 
-@section('title', 'All Films')
+@section('title', 'View All Films')
 
 @section('content')
     <h1>View All Films</h1>
@@ -415,17 +415,17 @@ function index()
 @endsection
 ```
 
-* Note the use of @foreach and @if. These are part of the blade templating engine, and make it easy for us to include control structure in our views.
+* Note the use of @foreach and @if. These are part of the blade templating engine, and make it easy for us to include control structurs in our views.
 * Test this works. You should see a list of films.
 
-###Displaying film details
+### Displaying film details
 * Next make changes to the details method
 
 ```
   function details($filmId)
     {
         $film = Film::find($filmId);
-        return view('film/details',['film' => $film]);
+        return view('film/details-view',['film' => $film]);
     }
 ```
 
@@ -435,60 +435,56 @@ function index()
 @extends('layouts.master')
 @section('title', 'Film details')
 @section('content')
-<h1>Film Details</h1>
+<h1>{{$film->title}}</h1>
 <ul>
-<li>Title:{{$film->title}}</li>
-<li>Year:{{$film->year}}</li>
+<li>Year: {{$film->year}}</li>
+<li>Duration: {{$film->duration}}mins</li>
 </ul>
 @endsection
 ```
 
 * Test this works
 
-###Adding a new film
-* Make the following changes to *addform.blade.php*.
+### Adding a new film
+* Make the following changes to *create.blade.php*.
 ```
 @extends('layouts.master')
-@section('title', 'Add a new film')
+@section('title', 'Create Film')
 @section('content')
-<form action="{{url('addfilm')}}" method="POST">
+<form action="{{url('save')}}" method="POST">
 {{ csrf_field() }}
-<h1>Add New Film</h1>
-<div>
-<label for="title">Enter a film title:</label>
-<input type="text" name="title" id="title">
-</div>
-<div>
-<label for="title">Enter the film's year of release:</label>
-<input type="text" name="year" id="year">
-<label for="title">Enter the duration of the film in minutes:</label>
-<input type="text" name="duration" id="duration">
-</div>
+<h1>Create New Film</h1>
+<label for="title">Title:</label>
+<input type="text" id="title" name="title">
+<label for="year">Year:</label>
+<input type="text" id="year" name="year">
+<label for="duration">Duration:</label>
+<input type="text" id="duration" name="duration">
 <input type="submit" name="submitBtn" value="Add Film">
 </form>
 @endsection
 ```
 * Again here are a couple of things to note:
-  * The action attribute will submit the form to http://localhost/laravel-project-name/public/addform . Use inspect element to see how this has been constructed.
+  * The action attribute will submit the form to http://localhost/laravel-project-name/public/save . Use inspect element to see how this has been constructed.
   * The form features the line
 
 ```
  {{ csrf_field() }}
 ```
-* This injects a hidden field into the form for security purposes to prevent cross-site request forgery. See (https://laravel.com/docs/5.4/csrf) for more info. Everytime we build a form in Laravel we need to include a call to this function.
+* This injects a hidden field into the form for security purposes to prevent cross-site request forgery. See (https://laravel.com/docs/5.5/csrf) for more info. Everytime we build a form in Laravel we need to include a call to this function.
 
-* Next we need to modify the *addFilm* method in *FilmController.php*.
+* Next we need to modify the *save* method in *FilmController.php*.
 
 ```
-function addFilm(Request $request)
-    {
-        $film = new Film();
-        $film->title = $request->title;
-        $film->year=$request->year;
-        $film->duration=$request->duration;
-        $film->save();
-        return redirect('all');
-    }
+function save(Request $request)
+{
+    $film = new Film();
+    $film->title = $request->title;
+    $film->year=$request->year;
+    $film->duration=$request->duration;
+    $film->save();
+    return redirect('list');
+}
 ```
 
 * The request object is generated for us automatically by Laravel. We can access form values as properties of this object e.g. $request->title.
@@ -498,11 +494,11 @@ $film->save();
 ```
 * Test this works. You should be able to add and view the details of a new film.
 
-###Validating user input
-Laravel makes it easy to validate user input. First, change the *addFilm* method to the following:
+### Validating user input
+Laravel makes it easy to validate user input. First, change the *save* method to the following:
 
 ```
-function addFilm(Request $request)
+function save(Request $request)
     {
         $this->validate($request, [
             'title' => 'required|max:100',
@@ -514,18 +510,18 @@ function addFilm(Request $request)
         $film->year=$request->year;
         $film->duration=$request->duration;
         $film->save();
-        return redirect('all');
+        return redirect('list');
     }
 ```
 
-* The validate method is available to all controllers (https://laravel.com/docs/5.4/validation). It simply accepts an object to validate and a series of rules.
-  * It should be fairly obvious what these rules do e.g. the year feld must be completed and contain an integer with a value of at least 1900. 
+* The validate method is available to all controllers (https://laravel.com/docs/5.5/validation). It simply accepts an object to validate and a series of rules.
+* It should be fairly obvious what these rules do e.g. the year field must be completed and contain an integer with a value of at least 1900. 
 * Test this works. If the user enters invalid data they will be re-directed to the form.
-* Next we want to display error message for the user. Open *addform.blade.php* and make the following changes:
+* Next we want to display error message for the user. Open *create.blade.php* and make the following changes:
 
 ```
 @extends('layouts.master')
-@section('title', 'Add a new film')
+@section('title', 'Create Film')
 @section('content')
 @if (count($errors) > 0)
     <div>
@@ -536,19 +532,16 @@ function addFilm(Request $request)
         </ul>
     </div>
 @endif
-<form action="{{url('addfilm')}}" method="POST">
+
+<form action="{{url('save')}}" method="POST">
 {{ csrf_field() }}
-<h1>Add New Film</h1>
-<div>
-<label for="title">Enter a film title:</label>
-<input type="text" name="title" value="{{old('title')}}" id="title">
-</div>
-<div>
-<label for="title">Enter the film's year of release:</label>
-<input type="text" name="year" value="{{old('year')}}" id="year">
-<label for="title">Enter the duration of the film in minutes:</label>
-<input type="text" name="duration" value="{{old('duration')}}" id="duration">
-</div>
+<h1>Create New Film</h1>
+<label for="title">Title:</label>
+<input type="text" id="title" value="{{old('title')}}" name="title">
+<label for="year">Year:</label>
+<input type="text" id="year" value="{{old('year')}}" name="year">
+<label for="duration">Duration:</label>
+<input type="text" id="duration" value="{{old('duration')}}" name="duration">
 <input type="submit" name="submitBtn" value="Add Film">
 </form>
 @endsection
@@ -560,30 +553,30 @@ function addFilm(Request $request)
 ```
 <input type="text" name="year" value="{{old('year')}}" id="year">
 ```
-###Deleting films
-Finally we get on to deleting films. Make the following changes to the *deleteForm* and *deleteFilms* methods in FilmController.php.
+
+### Deleting films
+Finally we get on to deleting films. Make the following changes to the *deleteList* and *delete* methods in FilmController.php.
 
 ```
-function deleteForm()
+function deleteList()
 {
     $films = Film::all();
-    return view('film/deleteform',['films' => $films]);
+    return view('film/delete-list-view',['films' => $films]);
 }
-
-function deleteFilms(Request $request)
+function delete(Request $request)
 {
     Film::destroy($request->films);
-    return redirect('all');
+    return redirect('list');
 }
 ```
 
-* Make the following changes to *deleteform.blade.php*.
+* Make the following changes to *delete-list-view.blade.php*.
 ```
 @extends('layouts.master')
-@section('title', 'Delete films')
+@section('title', 'Select Films to Delete')
 @section('content')
 
-<form action="{{url('deletefilms')}}" method="POST">
+<form action="{{url('delete')}}" method="POST">
     {{ csrf_field() }}
      @foreach ($films as $film)
         <div>
@@ -600,9 +593,8 @@ function deleteFilms(Request $request)
 * Test this works.
 * Hopefully, most of this should make sense. Again, we are using Eloquent to manage the database actions, in this case destroy accepts an array of id numbers that specify rows to delete from a database table.
 
-##On your own
+## On your own
 
 * The above is a whirlwind tour of Laravel. For in-depth explanations see https://laravel.com.
-* The laracasts website has several free courses for learning Laravel e.g. https://laracasts.com/series/laravel-from-scratch-2017 
-* Think about making a start on the assignment using Laravel. Start off with single database tables. Next week we will look at using related data in Laravel.
+
 

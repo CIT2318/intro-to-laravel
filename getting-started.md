@@ -1,16 +1,16 @@
 # Installing Laravel
 
-The official installation instructions for laravel are very good - https://laravel.com/docs/5.7, but can be a bit daunting for beginners.
+The official installation instructions for laravel are very good - https://laravel.com/docs, but can be a bit daunting for beginners.
 
 There are also a seri
-es of videos for learning Laravel on Laracasts. The first video covers installation: https://laracasts.com/series/laravel-from-scratch-2018. 
+es of videos for learning Laravel on Laracasts. The first video covers installation: https://laracasts.com/series/laravel-from-scratch-2018.
 
 The following explains how to get up and running with Laravel if you are using XAMPP, like we are in this module. Here are a couple of things to note before we get started:
-* You can't do this using selene. The latest version of Laravel uses PHP 7.1.3, we only have version 7.0 on selene. 
+* You can't do this using selene. The latest version of Laravel uses PHP 7.2, we only have version 7.0 on selene. 
 
 ## Installing Composer
 
-First we need to download composer. Click on the following link. 
+First we need to download composer. Click on the following link.
 ```
 https://getcomposer.org/composer.phar
 ```
@@ -24,7 +24,7 @@ Then enter
 ```
 dir
 ```
-The list of all the files and folders in the php folder will be shown. Make sure you can see the *composer.phar* file you have just downloaded. 
+The list of all the files and folders in the php folder will be shown. Make sure you can see the *composer.phar* file you have just downloaded.
 * To make Composer accessible we need to create a .bat file.  Enter the following carefully into the XAMPP shell (this generates a batch file)
 ```
 echo @php "%~dp0composer.phar" %*>composer.bat
@@ -52,6 +52,4 @@ composer create-project --prefer-dist laravel/laravel name-of-your-project
 
 ### What else can go wrong?
 
-Depending on which version of XAMPP you have installed you may need to enable some PHP extensions. See https://laravel.com/docs/5.7/installation for server requirements. If you unsure how to enable extensions please ask.
-
-
+Depending on which version of XAMPP you have installed you may need to enable some PHP extensions. See https://laravel.com/docs/installation for server requirements. If you unsure how to enable extensions please ask.

@@ -1,6 +1,6 @@
 # Introduction to Laravel
 
-The following practical instructions are a quick start. You should refer to the Laravel website for comprehensive info on building laravel applications and to look up aspects you find confusing. 
+The following practical instructions are a quick start. You should refer to the Laravel website for comprehensive info on building laravel applications and to look up aspects you find confusing.
 
 ## Working with routes
 
@@ -42,7 +42,7 @@ Route::post('delete',function()
 * Test the other routes. Here are a couple of things to note:
   * When showing the details for a film, we have to specify the film's id number e.g. http://localhost/laravel-project-name/public/details/4 . The route features a parameter ($filmId) that will be assigned this value.
   * You won't be able to test *save* or *delete* as these require a POST action. Eventually these routes will process form data.
-* For more info, read the documentation on routing https://laravel.com/docs/5.7/routing
+* For more info, read the documentation on routing https://laravel.com/docs/routing
 
 ## Controllers
 
@@ -120,7 +120,7 @@ Route::post('delete','FilmController@delete');
 
 ```
 
-* Test this works by entering some URLs in the browser. You should now be calling the controller methods when a URL is entered. 
+* Test this works by entering some URLs in the browser. You should now be calling the controller methods when a URL is entered.
 
 ## Views
 Views are simple PHP pages that are loaded by the controller. Create the following view:
@@ -148,11 +148,11 @@ function index()
 
 
 * Test this works. Note, how the title of the page is passed to the view.
-* To test your understanding create a simple view for the details controller method. 
+* To test your understanding create a simple view for the details controller method.
 * Test it works.
 
 ## Blade Templates
-Blade is a templating engine (https://laravel.com/docs/5.7/blade). It allows us to do two things:
+Blade is a templating engine (https://laravel.com/docs/blade). It allows us to do two things:
 
 * Easily re-use HTML code to create templates, just like when we used *include* in plain PHP.
 * Easily integrate PHP into our HTML pages without the need for lots of PHP tags.
@@ -229,7 +229,7 @@ Here's how it all works *master.blade.php* is a template that we can base other 
 
 In *master.blade.php* there is already a link to a CSS file.
 
-* Create a simple CSS file and save it in the public/css folder as *style.css*. 
+* Create a simple CSS file and save it in the public/css folder as *style.css*.
 * Test this works.
 
 ## Working with a Database
@@ -306,7 +306,7 @@ You might get an error along the lines of 'specified key was too long'. This is 
      }
  ```
 * Delete any tables that were created in the previous attempt.
-* Then try and run your migration again. See here for full explanation https://laracasts.com/discuss/channels/general-discussion/syntax-error-or-access-violation-1071-specified-key-was-too-long 
+* Then try and run your migration again. See here for full explanation https://laracasts.com/discuss/channels/general-discussion/syntax-error-or-access-violation-1071-specified-key-was-too-long
 
 ### Seeding the database
 
@@ -376,7 +376,7 @@ php artisan make:model Film
 
 * Have a look in the *app* folder, you should find a Film class has been generated.
 * Laravel uses something called Eloquent ORM for object-relational mapping. As we will see, it is based on the Active Record pattern.
- 
+
 >Eloquent ORM works on conventions. If we create a model class called Film, it will assume that this maps to a database table called 'films'. We don't have to do anything else to set up the object-relational mapping.
 
 ## Tying everything together
@@ -397,7 +397,7 @@ function index()
 }
 ```
 
-* Hopefully, you can see how the active record pattern is working. We want a list of all the films, so we call the *all* method. This has been defined automatically for us by the Eloquent ORM (https://laravel.com/docs/5.7/eloquent)
+* Hopefully, you can see how the active record pattern is working. We want a list of all the films, so we call the *all* method. This has been defined automatically for us by the Eloquent ORM (https://laravel.com/docs/eloquent)
 * Also note that the *all* method returns an array of film objects, and this array is passed to the view. Open *list-view.blade.php*. Modify it so that it uses this array of film objects:
 
 ```
@@ -471,7 +471,7 @@ function index()
 ```
  {{ csrf_field() }}
 ```
-* This injects a hidden field into the form for security purposes to prevent cross-site request forgery. See (https://laravel.com/docs/5.7/csrf) for more info. Everytime we build a form in Laravel we need to include a call to this function.
+* This injects a hidden field into the form for security purposes to prevent cross-site request forgery. See (https://laravel.com/docs/csrf) for more info. Everytime we build a form in Laravel we need to include a call to this function.
 
 * Next we need to modify the *save* method in *FilmController.php*.
 
@@ -514,8 +514,8 @@ function save(Request $request)
     }
 ```
 
-* The validate method is available to all controllers (https://laravel.com/docs/5.7/validation). It simply accepts an object to validate and a series of rules.
-* It should be fairly obvious what these rules do e.g. the year field must be completed and contain an integer with a value of at least 1900. 
+* The validate method is available to all controllers (https://laravel.com/docs/validation). It simply accepts an object to validate and a series of rules.
+* It should be fairly obvious what these rules do e.g. the year field must be completed and contain an integer with a value of at least 1900.
 * Test this works. If the user enters invalid data they will be re-directed to the form.
 * Next we want to display error message for the user. Open *create.blade.php* and make the following changes:
 
@@ -596,5 +596,3 @@ function delete(Request $request)
 ## On your own
 
 * The above is a whirlwind tour of Laravel. For in-depth explanations see https://laravel.com.
-
-
